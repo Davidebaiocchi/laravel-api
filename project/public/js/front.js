@@ -2234,8 +2234,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Main"
+  name: "Main",
+  data: function data() {
+    return {
+      chiamatApi: 'http://localhost:8000/api/posts',
+      posts: [],
+      currentPage: 1,
+      lastPage: null
+    };
+  },
+  created: function created() {
+    this.getPosts();
+  },
+  methods: {
+    getPosts: function getPosts() {
+      var _this = this;
+
+      axios.get(this.chiamatApi).then(function (response) {
+        _this.currenPage = response.data.results.current_page;
+        _this.lastPage = response.data.results.last_page;
+      })["catch"]();
+    }
+  }
 });
 
 /***/ }),
@@ -38024,7 +38058,40 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("main", [_vm._v("\n    ciao\n")])
+  return _c("main", [
+    _c("p", { staticClass: "m-3" }, [
+      _vm._v("Pagina corrente: " + _vm._s(_vm.currentPage) + ".\n        "),
+      _c("br"),
+      _vm._v(" Ultima pagina : " + _vm._s(_vm.lastPage) + ".\n    ")
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row" },
+      _vm._l(_vm.posts, function(post) {
+        return _c("div", { key: post.id, staticClass: "col-sm-6" }, [
+          _c("div", { staticClass: "card m-3" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("h5", { staticClass: "card-title" }, [
+                _vm._v(" " + _vm._s(post.title) + " ")
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "card-text" }, [
+                _vm._v(" " + _vm._s(post.content) + " ")
+              ]),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "btn btn-primary", attrs: { href: "#" } },
+                [_vm._v("Dettagli")]
+              )
+            ])
+          ])
+        ])
+      }),
+      0
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -50460,9 +50527,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _views_App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/App */ "./resources/js/views/App.vue");
+/* harmony import */ var _views_App__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./views/App */ "./resources/js/views/App.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -50471,12 +50536,12 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
-
-var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
+var app = new Vue({
   el: '#root',
   render: function render(h) {
-    return h(_views_App__WEBPACK_IMPORTED_MODULE_1__["default"]);
+    return h(_views_App__WEBPACK_IMPORTED_MODULE_0__["default"]);
   }
 });
 
